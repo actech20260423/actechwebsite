@@ -98,6 +98,7 @@
         sendButton.disabled = true;
         input.disabled = true;
         const pending = addMessage("assistant", "AC is thinking…", true);
+        let failureMessage = "AC is temporarily unavailable. Please try again later.";
 
         try {
             const response = await fetch(endpoint, {
@@ -111,6 +112,10 @@
             });
             const data = await response.json().catch(() => ({}));
             if (!response.ok || typeof data.reply !== "string") {
+                if (response.status === 504) {
+                    failureMessage = "AC is taking longer than expected. Please try again.";
+                    throw new Error("AC is taking longer than expected. Please try again.");
+                }
                 const diagnostic = data.code ? ` [${data.code}]` : "";
                 throw new Error(`${data.error || "The chat service is unavailable."}${diagnostic}`);
             }
@@ -123,7 +128,7 @@
             addMessage("assistant", reply);
         } catch (error) {
             pending.remove();
-            addMessage("assistant", "AC is temporarily unavailable. Please try again later.");
+            addMessage("assistant", failureMessage);
             console.error("AC chat request failed:", error);
         } finally {
             sendButton.disabled = false;

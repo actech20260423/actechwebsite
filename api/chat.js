@@ -6,6 +6,7 @@ const JSON_HEADERS = {
 
 const MAX_MESSAGES = 12;
 const MAX_MESSAGE_CHARS = 1000;
+const GEMINI_TIMEOUT_MS = 25_000;
 
 // Keep this aligned with the public pages when their copy or offerings change.
 // This is intentionally server-side: visitors cannot alter AC's source knowledge.
@@ -67,7 +68,7 @@ export default async function handler(req, res) {
     // suited to a short website-support conversation.
     const model = validModel(process.env.GEMINI_MODEL) ? process.env.GEMINI_MODEL : "gemini-3.5-flash-lite";
     const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 15_000);
+    const timeout = setTimeout(() => controller.abort(), GEMINI_TIMEOUT_MS);
 
     try {
         const geminiResponse = await fetch(
@@ -113,6 +114,14 @@ export default async function handler(req, res) {
 
         return json(res, { reply: reply.slice(0, 4000) });
     } catch (error) {
+        if (error instanceof Error && error.name === "AbortError") {
+            console.error("Gemini request timed out", { model, timeoutMs: GEMINI_TIMEOUT_MS });
+            return json(res, {
+                error: "AC is taking longer than expected. Please try again.",
+                code: "UPSTREAM_TIMEOUT"
+            }, 504);
+        }
+
         console.error("Gemini request failed", error instanceof Error ? error.name : "unknown error");
         return json(res, { error: "AC is temporarily unavailable." }, 502);
     } finally {
