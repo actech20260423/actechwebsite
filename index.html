@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ACTech - Modern Tech & AI Solutions</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-slate-950 text-slate-100 font-sans antialiased selection:bg-blue-600 selection:text-white">
+
+    <!-- Header / Navbar -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-slate-950/80 backdrop-blur-md border-b border-slate-800">
+        <div class="max-w-7xl mx-auto px-6 h-20 grid grid-cols-[1fr_auto_1fr] items-center">
+            <a href="index.html" class="text-xl font-bold tracking-tight text-white flex items-center gap-2">
+                <span class="text-blue-500">AC</span>Tech
+            </a>
+            <nav class="flex items-center justify-self-center gap-2 text-xs font-medium text-slate-300 sm:gap-6 sm:text-sm" aria-label="Main navigation">
+                <a href="index.html#home" class="hover:text-blue-400 transition-colors">Home</a>
+                <a href="#features" class="hover:text-blue-400 transition-colors">Services</a>
+                <a href="content/pricing.html" class="hover:text-blue-400 transition-colors">Pricing</a>
+                <a href="content/about.html" class="hover:text-blue-400 transition-colors">About</a>
+            </nav>
+            <div class="justify-self-end">
+                <a href="content/pricing.html" class="hidden sm:inline-block bg-blue-600 hover:bg-blue-500 text-white text-sm font-medium px-4 py-2 rounded-lg transition-all shadow-lg shadow-blue-500/20">
+                    View Pricing
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden bg-gradient-to-b from-slate-900 to-slate-950">
+        <!-- Background Overlay Effect -->
+        <div class="absolute inset-0 opacity-20 bg-[radial-gradient(#3b82f6_1px,transparent_1px)] [background-size:16px_16px] pointer-events-none"></div>
+        
+        <div class="relative max-w-4xl mx-auto px-6 text-center z-10">
+            <h1 class="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white mb-6">
+                Welcome to <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-500">ACTech</span>
+            </h1>
+            <p class="text-lg sm:text-xl text-slate-400 max-w-2xl mx-auto mb-10 leading-relaxed">
+                Your ultimate partner in modern technological solutions, custom systems, and next-gen digital learning.
+            </p>
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <a href="#features" class="w-full sm:w-auto bg-blue-600 hover:bg-blue-500 text-white font-medium px-8 py-3.5 rounded-xl transition-all shadow-lg shadow-blue-500/25 flex items-center justify-center gap-2">
+                    Explore Services <i class="fa-solid fa-arrow-right text-xs"></i>
+                </a>
+                <a href="#vision" class="w-full sm:w-auto bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700 font-medium px-8 py-3.5 rounded-xl transition-all flex items-center justify-center gap-2">
+                    Our AI Vision
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features / What We Offer Section -->
+    <section id="features" class="py-24 bg-slate-950 relative">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <h2 class="text-3xl sm:text-4xl font-bold text-white mb-4">Empowering Businesses of All Sizes</h2>
+                <p class="text-slate-400 text-base sm:text-lg">
+                    ACTech is designed to bridge the gap for both small and large enterprises looking for fast, reliable, and high-performance websites and digital systems.
+                </p>
+            </div>
+
+            <!-- Grid Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Card 1 -->
+                <div class="bg-slate-900/50 border border-slate-800 p-8 rounded-2xl hover:border-blue-500/50 transition-all group">
+                    <div class="w-12 h-12 bg-blue-600/10 text-blue-400 rounded-xl flex items-center justify-center text-xl mb-6 group-hover:bg-blue-600 group-hover:text-white transition-all">
+                        <i class="fa-solid fa-code"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-white mb-3">Custom Web Development</h3>
+                    <p class="text-slate-400 leading-relaxed">
+                        Have a project in mind? We pass your requirements directly to our expert developer teams to build your dream system from scratch.
+                    </p>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="bg-slate-900/50 border border-slate-800 p-8 rounded-2xl hover:border-blue-500/50 transition-all group">
+                    <div class="w-12 h-12 bg-blue-600/10 text-blue-400 rounded-xl flex items-center justify-center text-xl mb-6 group-hover:bg-blue-600 group-hover:text-white transition-all">
+                        <i class="fa-solid fa-layer-group"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-white mb-3">Free & Paid Systems</h3>
+                    <p class="text-slate-400 leading-relaxed">
+                        Browse through our growing library of pre-built systems and websites. Choose from free options or purchase ready-to-use business solutions.
+                    </p>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="bg-slate-900/50 border border-slate-800 p-8 rounded-2xl hover:border-blue-500/50 transition-all group">
+                    <div class="w-12 h-12 bg-blue-600/10 text-blue-400 rounded-xl flex items-center justify-center text-xl mb-6 group-hover:bg-blue-600 group-hover:text-white transition-all">
+                        <i class="fa-solid fa-users-gear"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-white mb-3">Expert Team Allocation</h3>
+                    <p class="text-slate-400 leading-relaxed">
+                        Our network consists of multiple specialized teams ensuring that your business receives the dedicated focus and speed it deserves.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AI Vision Section -->
+    <section id="vision" class="py-24 bg-gradient-to-t from-slate-900 to-slate-950 border-t border-slate-900">
+        <div class="max-w-5xl mx-auto px-6 text-center">
+            <span class="text-xs font-semibold uppercase tracking-widest text-blue-400 bg-blue-500/10 px-3 py-1 rounded-full border border-blue-500/20">Future Innovation</span>
+            <h2 class="text-3xl sm:text-5xl font-extrabold text-white mt-6 mb-6">Introducing "AC" — Artificial Clone Technology</h2>
+            <p class="text-slate-300 text-lg max-w-3xl mx-auto leading-relaxed mb-8">
+                In the near future, ACTech is evolving to introduce our proprietary AI: <strong class="text-white">AC (Artificial Clone Technology)</strong>. This is an exact digital clone of our company's cumulative knowledge, designed to assist clients seamlessly.
+            </p>
+            <p class="text-slate-400 text-base max-w-2xl mx-auto leading-relaxed">
+                Even more exciting? We are expanding our vision to allow individuals to build and train their own personalized AI clones—tailored to respond, think, and interact precisely like <em>them</em> or customized to match their personal website preferences.
+            </p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-slate-950 border-t border-slate-900 py-12">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-6">
+            <p class="text-slate-500 text-sm">© 2026 ACTech. All rights reserved. Shaping the future of digital solutions.</p>
+        </div>
+    </footer>
+
+    <script src="ac-chat.js"></script>
+</body>
+</html>
