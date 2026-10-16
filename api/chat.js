@@ -7,6 +7,8 @@ const JSON_HEADERS = {
 const MAX_MESSAGES = 12;
 const MAX_MESSAGE_CHARS = 1000;
 const GEMINI_TIMEOUT_MS = 25_000;
+const GEMINI_MAX_ATTEMPTS = 3;
+const GEMINI_RETRY_DELAY_MS = 1_000;
 
 // Keep this aligned with the public pages when their copy or offerings change.
 // This is intentionally server-side: visitors cannot alter AC's source knowledge.
@@ -71,7 +73,7 @@ export default async function handler(req, res) {
     const timeout = setTimeout(() => controller.abort(), GEMINI_TIMEOUT_MS);
 
     try {
-        const geminiResponse = await fetch(
+        const geminiResult = await fetchGeminiWithRetry(
             `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`,
             {
                 method: "POST",
@@ -91,18 +93,22 @@ export default async function handler(req, res) {
                     }
                 }),
                 signal: controller.signal
-            }
+            },
+            model
         );
 
-        if (!geminiResponse.ok) {
-            const geminiError = await geminiResponse.json().catch(() => ({}));
-            const code = geminiError?.error?.status || `HTTP_${geminiResponse.status}`;
+        if (!geminiResult.response.ok) {
             // Log a non-secret diagnostic in Vercel. Never log the API key or body.
-            console.error("Gemini API error", { httpStatus: geminiResponse.status, code, model });
-            return json(res, { error: "AC is temporarily unavailable.", code }, 502);
+            console.error("Gemini API error", {
+                httpStatus: geminiResult.response.status,
+                code: geminiResult.code,
+                model,
+                attempts: geminiResult.attempts
+            });
+            return json(res, { error: "AC is temporarily unavailable.", code: geminiResult.code }, 502);
         }
 
-        const geminiData = await geminiResponse.json();
+        const geminiData = await geminiResult.response.json();
         const reply = geminiData?.candidates?.[0]?.content?.parts
             ?.map((part) => part.text || "")
             .join("")
@@ -127,6 +133,32 @@ export default async function handler(req, res) {
     } finally {
         clearTimeout(timeout);
     }
+}
+
+async function fetchGeminiWithRetry(url, options, model) {
+    for (let attempt = 1; attempt <= GEMINI_MAX_ATTEMPTS; attempt += 1) {
+        const response = await fetch(url, options);
+        if (response.ok) return { response, code: null, attempts: attempt };
+
+        const errorData = await response.json().catch(() => ({}));
+        const code = errorData?.error?.status || `HTTP_${response.status}`;
+        const shouldRetry = response.status === 503 || code === "UNAVAILABLE";
+        if (!shouldRetry || attempt === GEMINI_MAX_ATTEMPTS) {
+            return { response, code, attempts: attempt };
+        }
+
+        const delay = GEMINI_RETRY_DELAY_MS * (2 ** (attempt - 1));
+        console.warn("Retrying Gemini request after transient error", {
+            httpStatus: response.status,
+            code,
+            model,
+            nextAttempt: attempt + 1,
+            delayMs: delay
+        });
+        await new Promise((resolve) => setTimeout(resolve, delay));
+    }
+
+    throw new Error("Gemini retry loop ended unexpectedly.");
 }
 
 function normaliseBody(body) {

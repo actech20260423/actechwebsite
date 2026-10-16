@@ -66,6 +66,8 @@ endpoint. It remains a static HTML site except when a visitor sends a chat messa
 4. Add a Vercel Firewall/rate-limit rule for `POST /api/chat` before announcing the
    feature publicly. Keeping a key server-side prevents disclosure, but rate limiting
    protects its Gemini quota from automated requests to the public endpoint.
+   The chat function retries Gemini `503` / `UNAVAILABLE` responses up to two times
+   with exponential delays before returning an error.
 
 For local Vercel development, store a *throwaway* test key in an uncommitted `.env.local`
 file:
